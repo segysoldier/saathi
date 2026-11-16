@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="hi-Latn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Saathi</title>
+<meta name="description" content="5 minute ka rest jo khatam hota hai, aapke sapne ki duniya se.">
+<meta name="theme-color" content="#1f6f6b">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root {
+  --bg: #faf6ef; --card: #ffffff; --ink: #2a2420; --soft: #6b625a; --line: #e6ddd0;
+  --accent: #1f6f6b; --on-accent: #ffffff; --tint: #e3f0ee; --good: #2e7d4f; --warm: #a8551f;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #191613; --card: #23201c; --ink: #ece5db; --soft: #a79d92; --line: #38332d;
+    --accent: #6fc3bd; --on-accent: #10201f; --tint: #223331; --good: #7fcf9d; --warm: #e0a070;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 17px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+main {
+  max-width: 480px; margin: 0 auto; min-height: 100dvh;
+  padding: 20px 16px calc(28px + env(safe-area-inset-bottom));
+  display: flex; flex-direction: column;
+}
+header.bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.brand { font-weight: 700; letter-spacing: .02em; color: var(--accent); }
+.bar nav { display: flex; gap: 4px; }
+h1 { font-size: 1.6rem; line-height: 1.25; margin: 0 0 8px; text-wrap: balance; }
+h2 { font-size: 1.15rem; margin: 24px 0 8px; }
+p { margin: 0 0 12px; }
+.soft { color: var(--soft); }
+.small { font-size: .88rem; }
+.eyebrow { font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--soft); margin: 0 0 4px; }
+.grow { flex: 1; }
+.stack { display: grid; gap: 10px; }
+button { font: inherit; color: inherit; cursor: pointer; }
+.btn {
+  display: block; width: 100%; min-height: 52px; padding: 12px 16px; border-radius: 14px;
+  border: 1.5px solid var(--line); background: var(--card); text-align: left;
+}
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 600; text-align: center; }
+.btn.center { text-align: center; }
+.btn.quiet { background: transparent; border-color: transparent; color: var(--soft); text-align: center; min-height: 44px; }
+.btn b { display: block; }
+.btn span { color: var(--soft); font-size: .9rem; }
+.btn.picked { border-color: var(--accent); background: var(--tint); }
+.btn.right { border-color: var(--good); }
+.btn[disabled] { cursor: default; opacity: 1; }
+.link { background: none; border: 0; padding: 10px 8px; min-height: 44px; color: var(--accent); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
+.story { font: 18px/1.75 Georgia, "Noto Serif", serif; }
+.story p { margin-bottom: 16px; }
+.note { background: var(--tint); border-radius: 12px; padding: 12px 14px; }
+.verdict { font-weight: 600; margin: 12px 0 4px; }
+.verdict.ok { color: var(--good); }
+.verdict.near { color: var(--warm); }
+pre { background: #1d2422; color: #e6efe9; padding: 12px 14px; border-radius: 12px; overflow-x: auto; white-space: pre-wrap; overflow-wrap: anywhere; font: 14px/1.5 ui-monospace, Consolas, monospace; }
+h1:focus { outline: none; }
+code { font-family: ui-monospace, Consolas, monospace; font-size: .92em; background: var(--tint); padding: 1px 5px; border-radius: 5px; }
+pre code { background: none; padding: 0; font-size: inherit; }
+.tablewrap { overflow-x: auto; margin-bottom: 12px; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid var(--line); padding: 6px 10px; text-align: left; }
+.chain { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 12px 0; }
+.dot {
+  aspect-ratio: 1; border-radius: 50%; border: 2px solid var(--line); display: grid; place-items: center;
+  font-size: .9rem; color: var(--soft); font-variant-numeric: tabular-nums;
+}
+.dot.rest { background: var(--tint); border-color: var(--accent); color: var(--ink); }
+.dot.kadam { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 700; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; }
+.stats div { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 6px; }
+.stats b { display: block; font-size: 1.5rem; font-variant-numeric: tabular-nums; }
+.stats span { font-size: .8rem; color: var(--soft); }
+label { display: block; font-size: .9rem; color: var(--soft); margin-bottom: 4px; }
+input[type=time] {
+  font: inherit; color: var(--ink); background: var(--card); border: 1.5px solid var(--line);
+  border-radius: 12px; padding: 10px 12px; width: 100%; min-height: 48px;
+}
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.check { display: flex; gap: 10px; align-items: flex-start; color: var(--ink); font-size: 1rem; }
+.check input { width: 22px; height: 22px; margin-top: 2px; accent-color: var(--accent); }
+footer.foot { margin-top: 24px; text-align: center; }
+@media (prefers-reduced-motion: no-preference) {
+  .screen { animation: rise .25s ease-out; }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+}
+</style>
+</head>
+<body>
+<main id="app" aria-live="polite"></main>
+<script src="packs.js"></script>
+<script>
+(function () {
+  'use strict';
+  var KEY = 'saathi_v1';
+  var PACKS = window.PACKS;
+  var HAAL = {
+    thaka: { title: 'Thaka hoon', sub: 'Sirf ek chhoti kahani' },
+    theek: { title: 'Theek hoon', sub: 'Kahani aur ek mazedaar sawal' },
+    taaza: { title: 'Taaza hoon', sub: 'Kahani aur 2 minute ka asli kadam' }
+  };
+  var app = document.getElementById('app');
+  var state = load();
+  var cur = null; // the rest in progress: { entry, pack, step, qi, answers, shown }
+
+  /* ---------- storage ---------- */
+  function load() {
+    try {
+      var s = JSON.parse(localStorage.getItem(KEY));
+      if (s && Array.isArray(s.log)) return s;
+    } catch (e) { /* private mode or bad data: start fresh */ }
+    return { profile: null, log: [] };
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* still usable this session */ }
+  }
+
+  /* ---------- helpers ---------- */
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function today() { var d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function nowTime() { var d = new Date(); return pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+  function group() { return PACKS[state.profile.group]; }
+  function myLog() { return state.log.filter(function (e) { return e.group === state.profile.group; }); }
+  function episodes() { return myLog().filter(function (e) { return !e.urge; }); }
+  function nextDay() { return episodes().length + 1; }
+  function todayEpisode() { var t = today(); return episodes().filter(function (e) { return e.date === t; })[0]; }
+  function inline(s) {
+    return esc(s).replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  }
+  // Small markdown subset used by the tech tasks: code fences, tables, bold, inline code.
+  function md(text) {
+    var lines = text.split('\n'), out = [], i = 0;
+    while (i < lines.length) {
+      var l = lines[i];
+      if (l.indexOf('```') === 0) {
+        var code = []; i++;
+        while (i < lines.length && lines[i].indexOf('```') !== 0) { code.push(lines[i]); i++; }
+        i++; out.push('<pre><code>' + esc(code.join('\n')) + '</code></pre>'); continue;
+      }
+      if (l.trim().charAt(0) === '|') {
+        var rows = [];
+        while (i < lines.length && lines[i].trim().charAt(0) === '|') { rows.push(lines[i].trim()); i++; }
+        var html = rows.filter(function (r) { return !/^\|[\s:|-]+\|$/.test(r); }).map(function (r, n) {
+          var tag = n === 0 ? 'th' : 'td';
+          return '<tr>' + r.slice(1, -1).split('|').map(function (c) { return '<' + tag + '>' + inline(c.trim()) + '</' + tag + '>'; }).join('') + '</tr>';
+        }).join('');
+        out.push('<div class="tablewrap"><table>' + html + '</table></div>'); continue;
+      }
+      if (l.trim()) out.push('<p>' + inline(l.trim()) + '</p>');
+      i++;
+    }
+    return out.join('');
+  }
+  // Long single-paragraph episodes are split into short paragraphs so they read well on a phone.
+  function storyHtml(paras) {
+    var out = [];
+    paras.forEach(function (p) {
+      if (p.length < 420) { out.push(p); return; }
+      var sentences = p.match(/[^.!?]+[.!?]+["')]*\s*|[^.!?]+$/g) || [p], buf = '';
+      sentences.forEach(function (s) {
+        if (buf.length + s.length > 300 && buf) { out.push(buf.trim()); buf = ''; }
+        buf += s;
+      });
+      if (buf.trim()) out.push(buf.trim());
+    });
+    return out.map(function (p) { return '<p>' + inline(p) + '</p>'; }).join('');
+  }
+  function bar() {
+    return '<header class="bar"><span class="brand">Saathi</span><nav>' +
+      '<button class="link" data-act="home">Ghar</button>' +
+      '<button class="link" data-act="progress">Safar</button>' +
+      '<button class="link" data-act="settings">Setting</button></nav></header>';
+  }
+  function show(html, withBar) {
+    app.innerHTML = (withBar === false ? '' : bar()) + '<section class="screen grow" style="display:flex;flex-direction:column">' + html + '</section>';
+    window.scrollTo(0, 0);
+    var h = app.querySelector('h1');
+    if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
+  }
+
+  /* ---------- screens ---------- */
+  function onboarding() {
+    var groups = Object.keys(PACKS).map(function (k) {
+      return '<button class="btn" data-act="pick-group" data-group="' + k + '"><b>' + esc(PACKS[k].label) + '</b><span>' + esc(PACKS[k].dream) + '</span></button>';
+    }).join('');
+    show(
+      '<p class="eyebrow">Saathi</p>' +
+      '<h1>5 minute ka rest, jo khatam hota hai.</h1>' +
+      '<p class="soft">Jab thak kar phone uthao, yahan aapke sapne ki duniya ki ek chhoti kahani milegi. Roz ek. Phir khatam.</p>' +
+      '<h2>Aapka sapna kis taraf hai?</h2><div class="stack" id="groups">' + groups + '</div>' +
+      '<h2>Din ke kaun se do waqt sabse zyada scroll hota hai?</h2>' +
+      '<div class="two"><div><label for="t1">Pehla waqt</label><input id="t1" type="time" value="13:30"></div>' +
+      '<div><label for="t2">Doosra waqt</label><input id="t2" type="time" value="22:30"></div></div>' +
+      '<p class="soft small" style="margin-top:8px">Ye app khud message nahi bhej sakta. In do waqt par phone ki ghadi me "Saathi" naam ka alarm laga lo.</p>' +
+      '<label class="check" style="margin:16px 0"><input id="age" type="checkbox"><span>Meri umar 18 saal ya usse zyada hai.</span></label>' +
+      '<p id="obmsg" class="soft small" role="status"></p>' +
+      '<button class="btn primary" data-act="start-app">Shuru karo</button>' +
+      '<p class="soft small" style="margin-top:12px">Aapka data sirf isi phone me rehta hai. Kahaniyan aur sawal AI ki madad se bane hain.</p>', false);
+  }
+
+  function home() {
+    if (!state.profile) return onboarding();
+    cur = null;
+    var done = todayEpisode(), n = nextDay();
+    if (done) return doneScreen(false);
+    if (n > group().days.length) return seasonOver();
+    var btns = Object.keys(HAAL).map(function (k) {
+      return '<button class="btn" data-act="begin" data-haal="' + k + '"><b>' + HAAL[k].title + '</b><span>' + HAAL[k].sub + '</span></button>';
+    }).join('');
+    show(
+      '<p class="eyebrow">Din ' + n + ' / ' + group().days.length + ' · ' + esc(group().label) + '</p>' +
+      '<h1>Abhi kaisa haal hai?</h1>' +
+      '<p class="soft">Jo sach ho wahi chuno. Teeno theek hain.</p>' +
+      '<div class="stack" style="margin-top:8px">' + btns + '</div>' +
+      '<div class="grow"></div>' +
+      '<button class="btn quiet" data-act="not-today">Aaj nahi</button>');
+  }
+
+  function storyScreen() {
+    var p = cur.pack, haal = cur.entry.haal;
+    var next = haal === 'thaka' ? ['finish', 'Rest poora'] :
+      haal === 'theek' ? ['to-theek', 'Aage: ek mazedaar sawal'] : ['to-taaza', 'Aage: 2 minute ka kadam'];
+    show(
+      '<p class="eyebrow">Din ' + p.day + '</p><h1>' + esc(p.title) + '</h1>' +
+      '<div class="story">' + storyHtml(p.story) + '</div>' +
+      '<button class="btn primary" data-act="' + next[0] + '">' + next[1] + '</button>');
+  }
+
+  function theekScreen() {
+    var t = cur.pack.theek;
+    cur.entry.sawal = true;
+    show(
+      '<p class="eyebrow">Ek mazedaar sawal</p><h1>' + inline(t.question) + '</h1>' +
+      '<p class="soft">Mann me jawab socho. Sahi-galat kuch nahi hai.</p>' +
+      (cur.shown
+        ? '<div class="note"><p style="margin:0">' + inline(t.reveal) + '</p></div><div class="grow"></div><button class="btn primary" style="margin-top:16px" data-act="finish">Rest poora</button>'
+        : '<div class="grow"></div><button class="btn primary" data-act="reveal">Jawab dekho</button>'));
+  }
+
+  function taazaScreen() {
+    var t = cur.pack.taaza;
+    if (t.type === 'reveal') {
+      show(
+        '<p class="eyebrow">2 minute ka asli kadam</p><h1>Pehle khud socho</h1>' + md(t.prompt) +
+        (cur.shown
+          ? '<div class="note">' + md(t.answer) + '</div><button class="btn primary" style="margin-top:16px" data-act="kadam-done">Kadam poora</button>'
+          : '<button class="btn primary" data-act="reveal">Jawab dekho</button>'));
+      return;
+    }
+    var q = t.items[cur.qi], picked = cur.answers[cur.qi];
+    var opts = q.options.map(function (o, i) {
+      var cls = 'btn' + (picked === undefined ? '' : (i === q.answer ? ' right picked' : (i === picked ? ' picked' : '')));
+      return '<button class="' + cls + '" data-act="answer" data-i="' + i + '"' + (picked === undefined ? '' : ' disabled') + '>' + inline(o) + '</button>';
+    }).join('');
+    var after = '';
+    if (picked !== undefined) {
+      var ok = picked === q.answer, last = cur.qi === t.items.length - 1;
+      after = '<p class="verdict ' + (ok ? 'ok' : 'near') + '">' + (ok ? 'Sahi.' : 'Kareeb tha. Sahi jawab: ' + inline(q.options[q.answer])) + '</p>' +
+        '<p class="soft">' + inline(q.why) + '</p>' +
+        '<button class="btn primary" data-act="' + (last ? 'kadam-done' : 'next-q') + '">' + (last ? 'Kadam poora' : 'Agla sawal') + '</button>';
+    }
+    show(
+      '<p class="eyebrow">Kadam · sawal ' + (cur.qi + 1) + ' / ' + t.items.length + '</p>' +
+      '<h1>' + inline(q.q) + '</h1><div class="stack">' + opts + '</div>' + after);
+  }
+
+  function endScreen() {
+    show(
+      '<div class="grow"></div><p class="eyebrow">' + (cur.entry.urge ? 'Ho gaya' : 'Din ' + cur.pack.day) + '</p>' +
+      '<h1>' + (cur.entry.urge ? 'Bas itna hi.' : 'Aaj ka rest poora.') + '</h1>' +
+      '<p class="soft">Ek chhota sawal, phir bas:</p><h2 style="margin-top:8px">Halka laga?</h2>' +
+      '<div class="two"><button class="btn center" data-act="halka" data-v="haan">Haan</button>' +
+      '<button class="btn center" data-act="halka" data-v="nahi">Nahi</button></div><div class="grow"></div>', false);
+  }
+
+  function doneScreen(justNow) {
+    var times = state.profile.times.filter(Boolean).join(' aur ');
+    show(
+      '<div class="grow"></div><p class="eyebrow">' + esc(group().label) + '</p>' +
+      '<h1>' + (justNow ? 'Kal milte hain.' : 'Aaj ka rest poora. Kal milte hain.') + '</h1>' +
+      '<p class="soft">Kahani kal aage badhegi' + (times ? '. Aapke waqt: ' + esc(times) : '') + '.</p>' +
+      chain() + '<div class="grow"></div>' +
+      '<button class="btn quiet" data-act="urge">Phir bhi mann ho raha hai?</button>');
+  }
+
+  function urgeScreen() {
+    show(
+      '<p class="eyebrow">Koi baat nahi</p><h1>Ek chhoti cheez, phir khatam.</h1>' +
+      '<p class="soft">Nayi kahani kal aayegi. Abhi ke liye inme se ek:</p>' +
+      '<div class="stack"><button class="btn" data-act="urge-go" data-haal="theek"><b>Ek mazedaar sawal</b><span>1 minute</span></button>' +
+      '<button class="btn" data-act="urge-go" data-haal="taaza"><b>2 minute ka asli kadam</b><span>Pichhle kisi din ka</span></button></div>' +
+      '<div class="grow"></div><button class="btn quiet" data-act="home">Rehne do</button>');
+  }
+
+  function seasonOver() {
+    show(
+      '<div class="grow"></div><p class="eyebrow">' + esc(group().label) + '</p><h1>Pehla season poora.</h1>' +
+      '<p class="soft">Dus din ki kahani khatam hui. Naya season abhi likha nahi gaya.</p>' + chain() +
+      '<div class="grow"></div><button class="btn quiet" data-act="urge">Purane din ka sawal ya kadam</button>');
+  }
+
+  function chain() {
+    var eps = episodes(), total = group().days.length, html = '';
+    for (var d = 1; d <= total; d++) {
+      var e = eps[d - 1];
+      var kadam = myLog().some(function (x) { return x.day === d && x.kadam; });
+      html += '<div class="dot' + (kadam ? ' kadam' : e ? ' rest' : '') + '" title="Din ' + d + '">' + d + '</div>';
+    }
+    return '<div class="chain" role="img" aria-label="' + eps.length + ' din rest, ' + total + ' me se">' + html + '</div>';
+  }
+
+  function progress() {
+    if (!state.profile) return onboarding();
+    var log = myLog(), eps = episodes();
+    var kadam = log.filter(function (e) { return e.kadam; }).length;
+    var asked = log.filter(function (e) { return e.halka; });
+    var halka = asked.filter(function (e) { return e.halka === 'haan'; }).length;
+    var by = { thaka: 0, theek: 0, taaza: 0 };
+    eps.forEach(function (e) { by[e.haal]++; });
+    show(
+      '<p class="eyebrow">' + esc(group().label) + '</p><h1>Aapka safar</h1>' + chain() +
+      '<p class="soft small">Halka rang: rest ka din. Gehra rang: us din asli kadam bhi liya.</p>' +
+      '<div class="stats"><div><b>' + eps.length + '</b><span>rest ke din</span></div>' +
+      '<div><b>' + kadam + '</b><span>asli kadam</span></div>' +
+      '<div><b>' + halka + '/' + asked.length + '</b><span>baar halka laga</span></div></div>' +
+      '<h2>Aaina</h2><div class="card"><p style="margin:0">Ab tak: ' + by.thaka + ' din thake the, ' + by.theek + ' din theek, ' + by.taaza + ' din taaza.</p></div>' +
+      '<p class="soft small" style="margin-top:12px">Yahan app me bitaya time nahi gina jaata. Sirf rest aur kadam.</p>');
+  }
+
+  function settings(msg) {
+    if (!state.profile) return onboarding();
+    var groups = Object.keys(PACKS).map(function (k) {
+      return '<button class="btn' + (k === state.profile.group ? ' picked' : '') + '" data-act="switch-group" data-group="' + k + '"><b>' + esc(PACKS[k].label) + '</b><span>' + esc(PACKS[k].dream) + '</span></button>';
+    }).join('');
+    show(
+      '<h1>Setting</h1>' + (msg ? '<p class="note" role="status">' + esc(msg) + '</p>' : '') +
+      '<h2>Sapna</h2><div class="stack">' + groups + '</div>' +
+      '<p class="soft small" style="margin-top:8px">Har sapne ki apni kahani aur apna safar hai. Badalne par purana safar bacha rehta hai.</p>' +
+      '<h2>Aapke do waqt</h2><div class="two"><div><label for="t1">Pehla</label><input id="t1" type="time" value="' + esc(state.profile.times[0] || '') + '"></div>' +
+      '<div><label for="t2">Doosra</label><input id="t2" type="time" value="' + esc(state.profile.times[1] || '') + '"></div></div>' +
+      '<button class="btn center" style="margin-top:10px" data-act="save-times">Waqt save karo</button>' +
+      '<h2>Phone par app ki tarah lagao</h2><p class="soft">Chrome ke menu (⋮) me "Add to Home screen" ya "Install app" chuno. Phir ye reel wale app ke paas hi dikhega.</p>' +
+      '<h2>Aapka data</h2><div class="stack"><button class="btn center" data-act="export">Apna record download karo (CSV)</button>' +
+      '<button class="btn center" data-act="wipe">Sab kuch mitao</button></div>' +
+      '<h2>Mann bhaari hai?</h2><div class="card"><p style="margin:0">Aap akele nahi ho. Tele-MANAS par abhi baat kar sakte ho: <a href="tel:14416">14416</a> (muft, 24 ghante).</p></div>' +
+      '<footer class="foot soft small">Kahaniyan aur sawal AI ki madad se bane hain. Ye padhai ya ilaaj ki salaah nahi hai.</footer>');
+  }
+
+  /* ---------- flow ---------- */
+  function begin(haal) {
+    var n = nextDay();
+    cur = {
+      pack: group().days[n - 1], qi: 0, answers: [], shown: false,
+      entry: { date: today(), time: nowTime(), group: state.profile.group, day: n, urge: false, haal: haal, halka: null, sawal: false, kadam: false, sahi: null }
+    };
+    storyScreen();
+  }
+  function beginUrge(haal) {
+    var eps = episodes(); if (!eps.length) return home();
+    var days = eps.map(function (e) { return e.day; });
+    if (haal === 'taaza') {
+      var fresh = days.filter(function (d) { return !myLog().some(function (x) { return x.day === d && x.kadam; }); });
+      if (fresh.length) days = fresh;
+    }
+    var d = days[Math.floor(Math.random() * days.length)];
+    cur = {
+      pack: group().days[d - 1], qi: 0, answers: [], shown: false,
+      entry: { date: today(), time: nowTime(), group: state.profile.group, day: d, urge: true, haal: haal, halka: null, sawal: false, kadam: false, sahi: null }
+    };
+    if (haal === 'theek') theekScreen(); else taazaScreen();
+  }
+  function finish(halka) {
+    cur.entry.halka = halka;
+    if (cur.pack.taaza.type === 'mcq' && cur.entry.kadam) {
+      cur.entry.sahi = cur.answers.filter(function (a, i) { return a === cur.pack.taaza.items[i].answer; }).length;
+    }
+    state.log.push(cur.entry); save();
+    var wasUrge = cur.entry.urge; cur = null;
+    if (wasUrge) home(); else doneScreen(true);
+  }
+  function exportCsv() {
+    var head = 'tareekh,samay,group,din,khud_maanga,haal,halka_laga,sawal_dekha,kadam_poora,sahi_jawab';
+    var rows = state.log.map(function (e) {
+      return [e.date, e.time, e.group, e.day, e.urge ? 'Y' : 'N', e.haal, e.halka || '', e.sawal ? 'Y' : 'N', e.kadam ? 'Y' : 'N', e.sahi === null ? '' : e.sahi].join(',');
+    });
+    var blob = new Blob([head + '\n' + rows.join('\n') + '\n'], { type: 'text/csv' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'saathi_record_' + today() + '.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+
+  /* ---------- events ---------- */
+  var picked = null, wipeArmed = false;
+  app.addEventListener('click', function (ev) {
+    var b = ev.target.closest('[data-act]'); if (!b) return;
+    var act = b.dataset.act;
+    if (act !== 'wipe') wipeArmed = false;
+    switch (act) {
+      case 'home': return home();
+      case 'progress': return progress();
+      case 'settings': return settings();
+      case 'pick-group':
+        picked = b.dataset.group;
+        Array.prototype.forEach.call(document.querySelectorAll('#groups .btn'), function (x) {
+          x.classList.toggle('picked', x === b); x.setAttribute('aria-pressed', x === b);
+        });
+        return;
+      case 'start-app':
+        var msg = document.getElementById('obmsg');
+        if (!picked) { msg.textContent = 'Pehle upar se ek sapna chuno.'; return; }
+        if (!document.getElementById('age').checked) { msg.textContent = 'Ye app abhi sirf 18 saal ya usse zyada umar ke liye hai.'; return; }
+        state.profile = { group: picked, times: [document.getElementById('t1').value, document.getElementById('t2').value], startedAt: today() };
+        save(); return home();
+      case 'begin': return begin(b.dataset.haal);
+      case 'not-today':
+        return show('<div class="grow"></div><h1>Theek hai. Kal milte hain.</h1><p class="soft">Kahani wahin rukegi jahan chhodi thi.</p><div class="grow"></div><button class="btn quiet" data-act="home">Wapas</button>');
+      case 'to-theek': cur.shown = false; return theekScreen();
+      case 'to-taaza': cur.shown = false; return taazaScreen();
+      case 'reveal': cur.shown = true; return cur.entry.haal === 'theek' ? theekScreen() : taazaScreen();
+      case 'answer': cur.answers[cur.qi] = Number(b.dataset.i); return taazaScreen();
+      case 'next-q': cur.qi++; return taazaScreen();
+      case 'kadam-done': cur.entry.kadam = true; return endScreen();
+      case 'finish': return endScreen();
+      case 'halka': return finish(b.dataset.v);
+      case 'urge': return urgeScreen();
+      case 'urge-go': return beginUrge(b.dataset.haal);
+      case 'switch-group':
+        state.profile.group = b.dataset.group; save();
+        return settings('Sapna badal diya: ' + PACKS[b.dataset.group].label + '.');
+      case 'save-times':
+        state.profile.times = [document.getElementById('t1').value, document.getElementById('t2').value]; save();
+        return settings('Waqt save ho gaya.');
+      case 'export': return exportCsv();
+      case 'wipe':
+        if (!wipeArmed) { wipeArmed = true; b.textContent = 'Pakka? Dobara dabao, sab mit jayega'; return; }
+        wipeArmed = false; state = { profile: null, log: [] }; picked = null;
+        try { localStorage.removeItem(KEY); } catch (e) { /* nothing stored */ }
+        return onboarding();
+    }
+  });
+
+  if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+    navigator.serviceWorker.register('sw.js').catch(function () { /* app works without offline cache */ });
+  }
+  home();
+})();
+</script>
+</body>
+</html>

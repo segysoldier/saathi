@@ -1,0 +1,17 @@
+{
+  "name": "Saathi",
+  "short_name": "Saathi",
+  "description": "5 minute ka rest jo khatam hota hai, aapke sapne ki duniya se.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#faf6ef",
+  "theme_color": "#1f6f6b",
+  "lang": "hi-Latn",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
